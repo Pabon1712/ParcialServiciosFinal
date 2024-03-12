@@ -1,0 +1,8 @@
+{  
+   "basePackage":"co.com.pabon.resolveEnigmaApi",
+   "configPackage":"co.com.pabon.microservice.resolveEnigmaApi.config",
+   "apiPackage":"co.com.pabon.microservice.resolveEnigmaApi.api",
+   "modelPackage":"co.com.pabon.microservice.resolveEnigmaApi.model",
+   "groupId":"co.com.pabon.service.resolveEnigmaApi",
+   "artifactId":"resolve-enigma-api"
+}
