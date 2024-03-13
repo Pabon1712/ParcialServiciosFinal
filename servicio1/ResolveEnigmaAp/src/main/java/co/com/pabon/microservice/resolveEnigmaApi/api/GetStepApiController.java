@@ -7,6 +7,7 @@ import co.com.pabon.microservice.resolveEnigmaApi.model.JsonApiBodyRequest;
 import co.com.pabon.microservice.resolveEnigmaApi.model.JsonApiBodyResponseSuccess;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,12 +46,17 @@ public class GetStepApiController {
         return new ResponseEntity<>(responseList, HttpStatus.OK);
     }
 
+    @GetMapping("/getStep")
+    public ResponseEntity<String> getStepSimple() {
+        return new ResponseEntity<>("Abrir Refrigerador", HttpStatus.OK);
+    }
+
     private String solveEnigma(String enigmaQuestion) {
-    	if (enigmaQuestion.equals("1"))
-    		{return "Step1: Abrir el refrigerador";
-    		}else {
-    			return "Solucion implementada para enigma: " + enigmaQuestion;
-    		}
+        if (enigmaQuestion.equals("1"))
+            return "Step1: Abrir el refrigerador";
+        else {
+            return "Solucion implementada para enigma: " + enigmaQuestion;
+        }
     }
 }
 

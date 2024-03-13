@@ -7,9 +7,11 @@ import co.com.pabon.microservice.resolveEnigmaApi.model.JsonApiBodyRequest;
 import co.com.pabon.microservice.resolveEnigmaApi.model.JsonApiBodyResponseSuccess;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -24,7 +26,6 @@ public class GetStepApiController {
         List<JsonApiBodyResponseSuccess> responseList = new ArrayList<>();
 
         for (GetEnigmaRequest enigma : enigmas) {
-
             Header header = enigma.getHeader();
             String id = header.getId();
             String type = header.getType();
@@ -45,13 +46,35 @@ public class GetStepApiController {
         return new ResponseEntity<>(responseList, HttpStatus.OK);
     }
 
+    @GetMapping("/getEnigmaFromAllApis")
+    public ResponseEntity<List<String>> getEnigmaFromAllApis() {
+        List<String> enigmaResponses = new ArrayList<>();
+
+        // Llamada a la primera API
+        String responseFromApi1 = makeGetRequest("http://localhost:8080/v1/getOneEnigma/getStep");
+        enigmaResponses.add(responseFromApi1);
+
+        // Llamada a la segunda API
+        String responseFromApi2 = makeGetRequest("http://localhost:8081/v1/getOneEnigma/getStep");
+        enigmaResponses.add(responseFromApi2);
+
+        // Llamada a la tercera API
+        String responseFromApi3 = makeGetRequest("http://localhost:8082/v1/getOneEnigma/getStep");
+        enigmaResponses.add(responseFromApi3);
+
+        return new ResponseEntity<>(enigmaResponses, HttpStatus.OK);
+    }
+
     private String solveEnigma(String enigmaQuestion) {
-    	if (enigmaQuestion.equals("3"))
-    		{return "Step3: Cerrar el refrigerador";
-    		}else {
-    			return "Solucion implementada para enigma: " + enigmaQuestion;
-    		}
+        if (enigmaQuestion.equals("4")) {
+            return "full";
+        } else {
+            return "Respuesta no valida ";
+        }
+    }
+
+    private String makeGetRequest(String apiUrl) {
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.getForObject(apiUrl, String.class);
     }
 }
-
-
